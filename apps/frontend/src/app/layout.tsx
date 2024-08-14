@@ -1,3 +1,4 @@
+import { RootLayoutComponent } from '@/components/root-layout-component';
 import '@/styles/globals.css';
 import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -21,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="default">
       <body className={`${inter.className} w-screen h-screen overflow-hidden`}>
-        {children}
+        <RootLayoutComponent>{children}</RootLayoutComponent>
       </body>
     </html>
   );
