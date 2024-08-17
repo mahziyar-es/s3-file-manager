@@ -1,1 +1,3 @@
-export enum S3Buckets {}
+export enum S3Buckets {
+  FILES = 'files',
+}
