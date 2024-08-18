@@ -1,11 +1,17 @@
+import { FoldersListContainer } from '../folders-list-container';
+import { FoldersSearchInput } from '../folders-search-input';
 import { NewFolderButton } from '../new-folder-button';
-import { FoldersListWithSearchContainer } from '../folders-list-with-search-container';
 
-export const FoldersSidebarContent = () => {
+export const FoldersSidebarContent = ({
+  folderSearchQuery,
+}: {
+  folderSearchQuery?: string;
+}) => {
   return (
     <div className="flex flex-col gap-4">
       <NewFolderButton />
-      <FoldersListWithSearchContainer />
+      <FoldersSearchInput />
+      <FoldersListContainer searchQuery={folderSearchQuery} />
     </div>
   );
 };
