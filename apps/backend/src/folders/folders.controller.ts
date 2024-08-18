@@ -6,18 +6,20 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { FoldersService } from './folders.service';
 import { CreateFolderDto } from './dto/create-folder.dto';
 import { UpdateFolderDto } from './dto/update-folder.dto';
+import { FindAllQueryParamsDto } from './dto/find-all-query-params.dto';
 
 @Controller('folders')
 export class FoldersController {
   constructor(private readonly foldersService: FoldersService) {}
 
   @Get()
-  findAll() {
-    return this.foldersService.findAll();
+  findAll(@Query() queryParams: FindAllQueryParamsDto) {
+    return this.foldersService.findAll(queryParams);
   }
 
   @Get(':id')

@@ -5,6 +5,7 @@ import { foldersErrorObjects } from './folders.errors';
 import { ConflictError } from 'src/common/errors/conflict.error';
 import { CreateFolderDto } from './dto/create-folder.dto';
 import { UpdateFolderDto } from './dto/update-folder.dto';
+import { FindAllQueryParamsDto } from './dto/find-all-query-params.dto';
 
 export class FoldersService {
   constructor(
@@ -12,11 +13,7 @@ export class FoldersService {
     private foldersRepository: Repository<Folder>,
   ) {}
 
-  async findAll(params?: {
-    limit?: number;
-    offset?: number;
-    query?: string;
-  }): Promise<Folder[]> {
+  async findAll(params?: FindAllQueryParamsDto): Promise<Folder[]> {
     return await this.foldersRepository.find({
       skip: params?.offset,
       take: params?.limit,
