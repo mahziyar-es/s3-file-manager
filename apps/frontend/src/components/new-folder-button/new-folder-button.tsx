@@ -5,6 +5,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { FolderForm } from '../folder-form';
 
 export const NewFolderButton = () => {
   return (
@@ -16,7 +17,7 @@ export const NewFolderButton = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Create folder</DialogTitle>
-        {/*  */}
+        <FolderForm />
       </DialogContent>
     </Dialog>
   );
