@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/form';
 import { Folder } from '@/types/folder.type';
 import { createFolder, updateFolder } from '@/actions/folders.action';
+import { toast } from 'sonner';
 
 export const FolderForm = ({ folder }: { folder?: Folder }) => {
   const formSchema = z.object({
@@ -28,11 +29,17 @@ export const FolderForm = ({ folder }: { folder?: Folder }) => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (folder?.id) {
-      await updateFolder(folder.id, values);
-    } else {
-      await createFolder(values);
-      form.reset();
+    try {
+      if (folder?.id) {
+        await updateFolder(folder.id, values);
+        toast.success('Folder updated');
+      } else {
+        await createFolder(values);
+        form.reset();
+        toast.success('Folder created');
+      }
+    } catch (error: unknown) {
+      toast.error((error as Error).message ?? 'Something went wrong');
     }
   };
 
