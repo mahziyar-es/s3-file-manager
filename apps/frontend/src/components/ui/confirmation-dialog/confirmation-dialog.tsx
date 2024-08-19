@@ -8,7 +8,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ConfirmationDialogProps } from '@/types/component-props/confirmation-dialog-props.type';
+import { ReactNode } from 'react';
+
+export type ConfirmationDialogProps = {
+  trigger?: ReactNode;
+  isOpen?: boolean;
+  title: string;
+  description: string;
+  confirmHandler: () => void;
+  closeHandler?: () => void;
+  confirmButtonText?: string;
+  closeButtonText?: string;
+};
 
 export const ConfirmationDialog = ({
   trigger,

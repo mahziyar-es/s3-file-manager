@@ -14,12 +14,25 @@ import {
 } from '@/components/ui/dialog';
 import { ConfirmationDialog } from '../ui/confirmation-dialog';
 import { Folder } from '@/types/folder.type';
+import { deleteFolder } from '@/actions/folders.action';
+import { toast } from 'sonner';
 
 type FolderListItemActions = {
   folder: Folder;
 };
 
 export const FolderListItemActions = ({ folder }: FolderListItemActions) => {
+  const deleteFolderConfirmationHandler = async () => {
+    try {
+      await deleteFolder(folder.id);
+      toast.success('Folder deleted');
+    } catch (error: unknown) {
+      toast.error(
+        (error as Error).message ?? 'Something went wrong, try again!',
+      );
+    }
+  };
+
   return (
     <Popover>
       <PopoverTrigger>
@@ -35,9 +48,7 @@ export const FolderListItemActions = ({ folder }: FolderListItemActions) => {
             }
             title="Delete"
             description="Are you sure?"
-            confirmHandler={() => {
-              // TODO
-            }}
+            confirmHandler={deleteFolderConfirmationHandler}
           />
           <Dialog>
             <DialogTrigger asChild>
