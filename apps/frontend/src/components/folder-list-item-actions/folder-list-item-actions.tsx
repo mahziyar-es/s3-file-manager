@@ -16,6 +16,7 @@ import { ConfirmationDialog } from '../ui/confirmation-dialog';
 import { Folder } from '@/types/folder.type';
 import { deleteFolder } from '@/actions/folders.action';
 import { toast } from 'sonner';
+import { FolderForm } from '../folder-form';
 
 type FolderListItemActions = {
   folder: Folder;
@@ -58,7 +59,7 @@ export const FolderListItemActions = ({ folder }: FolderListItemActions) => {
             </DialogTrigger>
             <DialogContent>
               <DialogTitle>Edit folder</DialogTitle>
-              {/* TODO */}
+              <FolderForm folder={folder} />
             </DialogContent>
           </Dialog>
         </div>
