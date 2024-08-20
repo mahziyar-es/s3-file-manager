@@ -8,10 +8,12 @@ export const FoldersSidebarContent = ({
   folderSearchQuery?: string;
 }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 h-full overflow-hidden">
       <NewFolderButton />
       <FoldersSearchInput />
-      <FoldersListContainer searchQuery={folderSearchQuery} />
+      <div className="flex-1 overflow-hidden">
+        <FoldersListContainer searchQuery={folderSearchQuery} />
+      </div>
     </div>
   );
 };

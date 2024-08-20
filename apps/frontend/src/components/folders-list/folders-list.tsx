@@ -1,7 +1,6 @@
 'use client';
 import { Folder } from '@/types/folder.type';
 import { FolderListItem } from '../folder-list-item';
-import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 type FoldersListProps = {
@@ -26,7 +25,7 @@ export const FoldersList = ({ folders }: FoldersListProps) => {
       {folders.length === 0 ? (
         <div className="text-muted-foreground text-center">No records</div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 pb-2 h-full overflow-auto pe-1">
           {folders.map((folder) => (
             <div onClick={() => handleClickOnFolder(folder)} key={folder.id}>
               <FolderListItem
