@@ -20,9 +20,5 @@ export const FoldersListContainer = async ({
     );
   }
 
-  return (
-    <div className="flex flex-col gap-4">
-      <FoldersList folders={folders} />
-    </div>
-  );
+  return <FoldersList folders={folders} />;
 };
