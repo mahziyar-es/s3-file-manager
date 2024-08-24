@@ -65,7 +65,7 @@ export class S3Service {
     }
   }
 
-  async getPresignUrlForObject(bucket: S3Buckets, key: string) {
+  async getPresignUrlForAccessingObject(bucket: S3Buckets, key: string) {
     try {
       const command = new GetObjectCommand({
         Bucket: bucket,
@@ -77,6 +77,23 @@ export class S3Service {
       Logger.error(JSON.stringify(error));
       throw new HttpException(
         'Something went wrong during creating s3 presign url for object',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async getPresignUrlForUpload(bucket: S3Buckets, key: string) {
+    try {
+      const command = new PutObjectCommand({
+        Bucket: bucket,
+        Key: key,
+      });
+
+      return await getSignedUrl(this.s3Client, command, { expiresIn: 3600 });
+    } catch (error: unknown) {
+      Logger.error(JSON.stringify(error));
+      throw new HttpException(
+        'Something went wrong while creating s3 presign url for object',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
