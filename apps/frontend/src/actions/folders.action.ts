@@ -15,6 +15,12 @@ export const fetchFolders = async (params?: { query?: string }) => {
   return response as Folder[];
 };
 
+export const fetchFolder = async (id: number) => {
+  const response = await httpRequest(`folders/${id}`);
+
+  return response as Folder;
+};
+
 export const createFolder = async (folderDto: CreateFolderDto) => {
   const response = await httpRequest('folders', {
     method: 'POST',
