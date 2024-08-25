@@ -1,3 +1,4 @@
+import { FolderContents } from '@/components/folder-contents';
 import { FoldersSidebarContent } from '@/components/folders-sidebar-content';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +14,7 @@ import { ChevronRight } from 'lucide-react';
 export default async function Page({
   searchParams,
 }: {
-  searchParams?: { folder_search_query?: string };
+  searchParams?: { folder_search_query?: string; folder_id?: string };
 }) {
   return (
     <div className="w-full h-full flex flex-col md:flex-row">
@@ -49,7 +50,15 @@ export default async function Page({
           </SheetContent>
         </Sheet>
       </div>
-      <div className="w-full md:w-3/4 lg:w-4/5 h-full p-4 bg-background flex"></div>
+      <div className="w-full md:w-3/4 lg:w-4/5 h-full p-4 bg-background flex">
+        {searchParams?.folder_id ? (
+          <FolderContents folderId={Number(searchParams?.folder_id)} />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+            Select a folder
+          </div>
+        )}
+      </div>
     </div>
   );
 }
