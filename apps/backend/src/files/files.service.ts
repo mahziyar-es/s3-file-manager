@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { S3Service } from 'src/s3/s3.service';
-import { File } from './files.entity';
+import { File } from './file.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { S3Buckets } from 'src/s3/s3-buckets.enum';
 import { randomUUID } from 'crypto';
+import { FindAllFilesQueryParamsDto } from './dto/find-all-query-params.dto';
+import { Folder } from 'src/folders/folder.entity';
+import { NotFoundError } from 'src/common/errors/not-found.error';
+import { filessErrorObjects } from './files.errors';
 
 @Injectable()
 export class FilesService {
@@ -62,6 +66,15 @@ export class FilesService {
   }
 
   async delete(id: number): Promise<void> {
+    const file = await this.findOne(id);
+
+    if (!file) throw new NotFoundError(filessErrorObjects.FILE_NOT_FOUND);
+
+    await this.s3Service.deleteObjectInBucketWithKey(
+      S3Buckets.FILES,
+      file.storage_key,
+    );
+
     await this.filesRepository.delete(id);
   }
 }
