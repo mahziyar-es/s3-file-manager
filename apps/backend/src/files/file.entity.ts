@@ -1,8 +1,11 @@
+import { Folder } from 'src/folders/folder.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,7 +25,7 @@ export class File {
   id: number;
 
   @Column({ type: 'varchar', length: 200 })
-  @Index(File.CONSTRAINT_NAMES.NAME_UNIQUE_INDEX, { unique: true })
+  @Index(File.CONSTRAINT_NAMES.NAME_UNIQUE_INDEX)
   name: string;
 
   @Column({ type: 'integer' })
@@ -43,4 +46,9 @@ export class File {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne(() => Folder, (folder) => folder.files, { nullable: false })
+  @JoinColumn({ name: 'folder_id' })
+  @Index()
+  folder: Folder;
 }

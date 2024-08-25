@@ -1,8 +1,10 @@
+import { File } from 'src/files/files.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,4 +27,7 @@ export class Folder {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => File, (file) => file.folder)
+  files: File[];
 }
