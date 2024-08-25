@@ -24,5 +24,6 @@ export class FindAllFilesQueryParamsDto {
   folder_id?: number;
 
   @IsEnum(FileStatus)
+  @IsOptional()
   status?: FileStatus;
 }
