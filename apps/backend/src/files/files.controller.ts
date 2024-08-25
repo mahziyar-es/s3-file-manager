@@ -6,19 +6,21 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { CreateFileDto } from './dto/create-file.dto';
-import { File } from './files.entity';
+import { File } from './file.entity';
+import { FindAllFilesQueryParamsDto } from './dto/find-all-query-params.dto';
 
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
 
   @Get()
-  findAll(): Promise<File[]> {
-    return this.filesService.findAll();
+  findAll(@Query() queryParams: FindAllFilesQueryParamsDto): Promise<File[]> {
+    return this.filesService.findAll(queryParams);
   }
 
   @Get(':id')

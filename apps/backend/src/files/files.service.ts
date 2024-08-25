@@ -16,8 +16,16 @@ export class FilesService {
     private readonly s3Service: S3Service,
   ) {}
 
-  async findAll(): Promise<File[]> {
-    const files = await this.filesRepository.find();
+  async findAll(params?: FindAllFilesQueryParamsDto): Promise<File[]> {
+    const files = await this.filesRepository.find({
+      skip: params?.offset,
+      take: params?.limit,
+      where: {
+        name: params?.query ? Like(`%${params.query}%`) : undefined,
+        status: params?.status ?? undefined,
+        folder: params?.folder_id ? { id: params.folder_id } : undefined,
+      },
+    });
 
     return files;
   }
