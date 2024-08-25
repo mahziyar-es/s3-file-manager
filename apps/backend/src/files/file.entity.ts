@@ -19,6 +19,7 @@ export enum FileStatus {
 export class File {
   static CONSTRAINT_NAMES = {
     NAME_UNIQUE_INDEX: 'files_name_unique_index',
+    FOLDER_FK: 'files_folder_fk_constraint',
   };
 
   @PrimaryGeneratedColumn()
@@ -48,7 +49,10 @@ export class File {
   updated_at: Date;
 
   @ManyToOne(() => Folder, (folder) => folder.files, { nullable: false })
-  @JoinColumn({ name: 'folder_id' })
+  @JoinColumn({
+    name: 'folder_id',
+    foreignKeyConstraintName: File.CONSTRAINT_NAMES.FOLDER_FK,
+  })
   @Index()
   folder: Folder;
 }

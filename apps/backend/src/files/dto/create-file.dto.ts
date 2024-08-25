@@ -14,4 +14,8 @@ export class CreateFileDto {
   @IsString()
   @IsNotEmpty()
   type: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  folder_id: number;
 }

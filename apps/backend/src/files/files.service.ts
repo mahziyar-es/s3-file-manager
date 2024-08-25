@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { S3Service } from 'src/s3/s3.service';
 import { File } from './file.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { Like, QueryFailedError, Repository } from 'typeorm';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { S3Buckets } from 'src/s3/s3-buckets.enum';
@@ -11,6 +11,7 @@ import { FindAllFilesQueryParamsDto } from './dto/find-all-query-params.dto';
 import { Folder } from 'src/folders/folder.entity';
 import { NotFoundError } from 'src/common/errors/not-found.error';
 import { filessErrorObjects } from './files.errors';
+import { ConflictError } from 'src/common/errors/conflict.error';
 
 @Injectable()
 export class FilesService {
@@ -43,12 +44,22 @@ export class FilesService {
   async create(
     fileDto: CreateFileDto,
   ): Promise<{ file: File; upload_presigned_url: string }> {
+    const folder = new Folder();
+    folder.id = fileDto.folder_id;
+
     const fileStorageKey = randomUUID();
 
-    const file = await this.filesRepository.save({
-      ...fileDto,
-      storage_key: fileStorageKey,
-    });
+    let file: File;
+
+    try {
+      file = await this.filesRepository.save({
+        ...fileDto,
+        folder,
+        storage_key: fileStorageKey,
+      });
+    } catch (error: unknown) {
+      this.fileMutationErrorHandler(error);
+    }
 
     const uploadPresignedUrl = await this.s3Service.getPresignUrlForUpload(
       S3Buckets.FILES,
@@ -76,5 +87,17 @@ export class FilesService {
     );
 
     await this.filesRepository.delete(id);
+  }
+
+  private fileMutationErrorHandler(error: unknown): never {
+    if (error instanceof QueryFailedError) {
+      switch (error?.driverError?.constraint) {
+        case File.CONSTRAINT_NAMES.FOLDER_FK:
+          throw new ConflictError(
+            filessErrorObjects.FOLDER_RELATION_FK_VIOLATION,
+          );
+      }
+    }
+    throw error;
   }
 }
