@@ -1,7 +1,7 @@
 import { ModuleErrorObjects } from 'src/common/errors/module-error-objects.type';
 
 export enum FoldersErrorCodes {
-  NAME_UNIQUE_CONSTRAINT_VIOLATION = 'user_001',
+  NAME_UNIQUE_CONSTRAINT_VIOLATION = 'folder_001',
 }
 
 export const foldersErrorObjects: ModuleErrorObjects<typeof FoldersErrorCodes> =
