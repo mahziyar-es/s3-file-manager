@@ -9,6 +9,10 @@ services:
       dockerfile: Dockerfile.dev
     environment:
       - DATABASE_URL=postgres://postgres:postgres@postgres:5432/s3_file_manager
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+      - AWS_REGION=eu-west-1
+      - AWS_ACCESS_ID=test
+      - AWS_ACCESS_SECRET=test
     volumes:
       - ../apps/backend:/usr/src/app
       - /usr/src/app/node_modules
