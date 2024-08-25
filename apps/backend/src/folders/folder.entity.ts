@@ -1,4 +1,4 @@
-import { File } from 'src/files/files.entity';
+import { File } from 'src/files/file.entity';
 import {
   Column,
   CreateDateColumn,

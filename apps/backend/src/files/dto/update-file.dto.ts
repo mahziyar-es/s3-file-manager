@@ -1,5 +1,5 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { FileStatus } from '../files.entity';
+import { FileStatus } from '../file.entity';
 
 export class UpdateFileDto {
   @IsString()
